@@ -18,6 +18,7 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.app import platform
 from kivy.uix.boxlayout import BoxLayout
+
 from kivy.core.image import Image
 from kivy.clock import Clock
 from kivy.graphics.texture import Texture
@@ -38,6 +39,9 @@ Builder.load_string('''
         id: camera
         resolution: (480, 640)
         play: False
+    Image:
+    	rgb: (1,1,1)
+    	heght:'120dp'
     ToggleButton:
         text: 'Play'
         on_press: camera.play = not camera.play
@@ -46,7 +50,7 @@ Builder.load_string('''
     Button:
         text: 'Load Image'
         size_hint_y: None
-        height: '68dp'
+        height: '48dp'
         on_press: root.load()
 ''')
 
@@ -93,7 +97,10 @@ class CameraClick(BoxLayout):
                 (x+w+padding, y+h+padding), (0, 255, 0), 2)
       #  cv2.imshow("Faces found", img)
         img_out= cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-      
+      	#cv2.imshow("",img_out)
+      	plt.imshow(img_out)
+      	plt.show()
+      	#imgView = Image(img_out)
          # convert it to texture
         buf1 = cv2.flip(img_out, 0)
         buf = buf1.tostring()
