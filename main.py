@@ -22,8 +22,10 @@ from kivy.core.image import Image
 from kivy.clock import Clock
 from kivy.graphics.texture import Texture
 from kivy.core.camera import CameraBase
-
+from jnius import autoclass  # SDcard Android
+import os
 from sklearn import svm
+import shutil
 import cv2
 import sys
 from matplotlib import pyplot as plt
@@ -54,17 +56,28 @@ class CameraClick(BoxLayout):
         Function to capture the images and give them the names
         according to their captured time and date.
         '''
+
         camera = self.ids['camera']
         timestr = time.strftime("%Y%m%d_%H%M%S")
-        #camera.export_to_png("IMG_{}.png".format(timestr))
+        camera.export_to_png("IMG_{}.png".format(timestr))
         #camera.texture.save()
        # tex=Image(camera)
       #  m = Image.load('3.jpg', keep_data=True)
         cascPath = "haarcascade_frontalface_default.xml"
         
-        
+		# Get path to SD card Android
+        camera = self.ids['camera']
+        try:
+        	Environment = autoclass('android.os.Environment')
+        	sdpath = Environment.getExternalStorageDirectory()
+    	except:
+    		sdpath = App.get_running_app().user_data_dir
+
+        sdpathfile = os.path.join(sdpath, "IMG_{}.png".format(timestr))
+        shutil.copyfile("IMG_{}.png".format(timestr), sdpathfile)
+
   #############################################################3      
-        img=cv2.imread("IMG_{}.png".format(timestr))
+        img=cv2.imread(sdpathfile)
   #############################################################3
   
         faceCascade = cv2.CascadeClassifier(cascPath)
@@ -93,9 +106,9 @@ class CameraClick(BoxLayout):
 class TestCamera(App):
 
     def build(self):
-        return CameraClick()
+
+			return CameraClick()
 
 
 TestCamera().run()
-
 
