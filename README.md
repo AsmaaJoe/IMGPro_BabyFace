@@ -1,7 +1,5 @@
 # IMGPro_BabyFace
-image project for course CSE 464
-Final status for the image proccessing:
-
-
-Final status for the Android App:
-It is built with python GUI library "kivy" , and the apk file is generated using Buildozer on linux.
+Project for course CSE 464- Image processing
+project idea is to remove facial hair from photos, and implement it in android application. Project is not complete, it stopped at detecting the facial hair in the image.
+# Used Tech:
+Python, opencv- python, python GUI library for android "kivy", Buildozer for deploying the app on android device  
